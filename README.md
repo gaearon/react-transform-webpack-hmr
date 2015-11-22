@@ -27,7 +27,7 @@ It must be an array of the transforms you want to use:
   "env": {
     // only enable it when process.env.NODE_ENV is 'development' or undefined
     "development": {
-      "plugins": ["react-transform"],
+      "plugins": ["react-transform:after"],
       "extra": {
         // must be defined and be an object
         "react-transform": {
