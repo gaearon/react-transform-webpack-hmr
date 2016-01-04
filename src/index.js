@@ -54,7 +54,7 @@ export default function proxyReactComponents({ filename, components, imports, lo
       return ReactClass;
     }
 
-    const globalUniqueId = filename + '$' + uniqueId;
+    const globalUniqueId = filename.toLowerCase() + '$' + uniqueId;
     if (componentProxies[globalUniqueId]) {
       console.info('[React Transform HMR] Patching ' + displayName);
       const instances = componentProxies[globalUniqueId].update(ReactClass);
