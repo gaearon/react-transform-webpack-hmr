@@ -1,4 +1,6 @@
-import { getForceUpdate, createProxy } from 'react-proxy';
+import { createProxy } from 'react-proxy';
+import deepForceUpdate from 'react-deep-force-update';
+
 import window from 'global/window';
 
 let componentProxies;
@@ -42,8 +44,6 @@ export default function proxyReactComponents({ filename, components, imports, lo
     });
   }
 
-  const forceUpdate = getForceUpdate(React);
-
   return function wrapWithProxy(ReactClass, uniqueId) {
     const {
       isInFunction = false,
@@ -57,8 +57,10 @@ export default function proxyReactComponents({ filename, components, imports, lo
     const globalUniqueId = filename + '$' + uniqueId;
     if (componentProxies[globalUniqueId]) {
       console.info('[React Transform HMR] Patching ' + displayName);
+
       const instances = componentProxies[globalUniqueId].update(ReactClass);
-      setTimeout(() => instances.forEach(forceUpdate));
+
+      setTimeout(() => instances.forEach(deepForceUpdate));
     } else {
       componentProxies[globalUniqueId] = createProxy(ReactClass);
     }
